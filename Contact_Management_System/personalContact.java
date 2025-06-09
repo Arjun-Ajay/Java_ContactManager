@@ -12,9 +12,13 @@ public class personalContact extends contact
 		this.relation=relation;
 	}
 	
-	@Override
-	public String getDetails()
+	public String getBday()
 	{
-		return "[Personal] Name: " + getName() +" | Phone: " + getPhoneNum() +" | Email: " + getEmail() +" | Birthday: " + bday +" | Relationship: " + relation;
-	}
+        return bday;
+    }
+
+    public String getRelation() 
+    {
+        return relation;
+    }
 }

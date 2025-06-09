@@ -5,6 +5,7 @@ public class businessContact extends contact
 	private String company;
 	private String jobTitle;
 	
+	//Constructor
 	public businessContact(String name,String phoneNum,String email,String company, String jobTitle)
 	{
 		super(name,phoneNum,email);
@@ -12,9 +13,13 @@ public class businessContact extends contact
 		this.jobTitle=jobTitle;
 	}
 	
-	@Override
-	public String getDetails() 
+	public String getCompany()
 	{
-        return "[Business] Name: " + getName() +" | Phone: " + getPhoneNum() +" | Email: " + getEmail() +" | Company: " + company +" | Job Title: " + jobTitle;
-	}
+        return company;
+    }
+
+    public String getJobTitle()
+    {
+        return jobTitle;
+    }
 }

@@ -1,6 +1,6 @@
 package Contact_Management_System;
 
-public abstract class contact 
+public class contact 
 {
 	private String name;
 	private String phoneNum;
@@ -26,13 +26,5 @@ public abstract class contact
 	public String getEmail()
 	{
 		return email;
-	}
-	
-	public abstract String getDetails();
-
-	@Override
-    public String toString() 
-	{
-        return getDetails();
 	}
 }

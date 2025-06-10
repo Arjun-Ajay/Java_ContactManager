@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import javax.swing.ImageIcon;
-import java.awt.Color;
 
 public class MainApp 
 {
@@ -12,6 +11,7 @@ public class MainApp
     private JTable contactTable;
     private DefaultTableModel tableModel;
 
+    // Constructor: Initializes the main window
     public MainApp()
     {
         // Load contacts from CSV file
@@ -22,11 +22,11 @@ public class MainApp
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(new BorderLayout(10, 10));
-
+        frame.getContentPane().setBackground(Color.gray);
+        
+        // Used to change the icon of the application to the specified image
         ImageIcon img=new ImageIcon("C:\\Users\\hp\\Downloads\\phone.png");
         frame.setIconImage(img.getImage());
-        
-        frame.getContentPane().setBackground(Color.gray);
         
         // Create table model
         String[] columns = {"Type", "Name", "Phone", "Email", "Details"};
@@ -34,7 +34,6 @@ public class MainApp
         updateTableData();
         contactTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(contactTable);
-
 
         // Create buttons
         JButton addButton = new JButton("Add Contact");
@@ -67,9 +66,10 @@ public class MainApp
         frame.setVisible(true);
     }
 
+    // Used to update the contact list with existing contacts
     private void updateTableData() 
     {
-        tableModel.setRowCount(0); // Clear table
+        tableModel.setRowCount(0); // Clears the table
         for (contact c : cm.getContacts()) 
         {
             String type = c instanceof personalContact ? "Personal" : "Business";
@@ -80,6 +80,7 @@ public class MainApp
         }
     }
 
+    // Used to make the dialog box for adding contact
     private void showAddContactDialog(JFrame parent) {
         JDialog dialog = new JDialog(parent, "Add Contact", true);
         dialog.setLayout(new GridLayout(7, 2, 10, 10));
@@ -139,6 +140,7 @@ public class MainApp
         dialog.setVisible(true);
     }
 
+    // Used to make the dialog box for deleting a contact
     private void showDeleteContactDialog(JFrame parent) {
         JDialog dialog = new JDialog(parent, "Delete Contact", true);
         dialog.setLayout(new GridLayout(3, 2, 10, 10));
@@ -166,6 +168,7 @@ public class MainApp
         dialog.setVisible(true);
     }
     
+    // Used to make the dialog box to edit the contacts
     private void showEditContactDialog(JFrame parent) {
         JDialog dialog = new JDialog(parent, "Edit Contact", true);
         dialog.setLayout(new GridLayout(9, 2, 10, 10));
@@ -275,6 +278,7 @@ public class MainApp
         dialog.setVisible(true);
     }
     
+    //main 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainApp());
     }

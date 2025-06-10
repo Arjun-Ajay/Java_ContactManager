@@ -9,26 +9,30 @@ public class contactManager
     private List<contact> myContacts = new ArrayList<>();
     private static final String CSV_FILE = "contacts.csv";
 
+    // Used to add a new contact to the contact list
     public void addContact(contact newContact)
     {
         myContacts.add(newContact);
     }
 
+    // Used to remove a contact from the contact list
     public void removeContact(String name)
     {
         myContacts.removeIf(givenContact -> givenContact.getName().equalsIgnoreCase(name));
     }
 
+    // Used to return the contact list
     public List<contact> getContacts()
     {
         return myContacts;
     }
     
+    // Used to update the contact already saved in the contact list
     public void updateContact(String oldName, contact updatedContact)
     {
         for (int i = 0; i < myContacts.size(); i++) 
         {
-            if (myContacts.get(i).getName().equalsIgnoreCase(oldName)) 
+            if (myContacts.get(i).getName().equals(oldName)) 
             {
                 myContacts.set(i, updatedContact);
                 return;
@@ -36,6 +40,7 @@ public class contactManager
         }
     }
     
+    // Used to save the contact list to the CSV file
     public void saveToCSV()
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter(CSV_FILE))) 
@@ -58,6 +63,7 @@ public class contactManager
         }
     }
 
+    // Used to load contacts which are saved on the CSV file.
     public void loadFromCSV() 
     {
         myContacts.clear();
@@ -84,9 +90,7 @@ public class contactManager
                 }
             }
         } catch (FileNotFoundException e) 
-        {
-            // File doesn't exist yet, which is fine for first run
-        } catch (IOException e) {
+        {} catch (IOException e) {
             System.err.println("Error loading from CSV: " + e.getMessage());
         }
     }

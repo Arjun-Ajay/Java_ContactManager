@@ -3,7 +3,6 @@ package Contact_Management_System;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import javax.swing.ImageIcon;
 
 public class MainApp 
 {
@@ -28,14 +27,14 @@ public class MainApp
         ImageIcon img=new ImageIcon("C:\\Users\\hp\\Downloads\\phone.png");
         frame.setIconImage(img.getImage());
         
-        // Create table model
+        // Used to create the table
         String[] columns = {"Type", "Name", "Phone", "Email", "Details"};
         tableModel = new DefaultTableModel(columns, 0);
         updateTableData();
         contactTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(contactTable);
 
-        // Create buttons
+        // Creating the different buttons
         JButton addButton = new JButton("Add Contact");
         addButton.addActionListener(e -> showAddContactDialog(frame));
         
@@ -45,21 +44,25 @@ public class MainApp
         JButton deleteButton = new JButton("Delete Contact");
         deleteButton.addActionListener(e -> showDeleteContactDialog(frame));
 
+        JButton searchButton = new JButton("Search Contact");
+        searchButton.addActionListener(e -> showSearchContactDialog(frame));
+        
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(e -> {
             cm.saveToCSV();
             System.exit(0);
         });
 
-        // Button panel
+        // Used to set up the button panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(searchButton);
         buttonPanel.add(exitButton);
 
-        // Add components to frame
+        // Used to add components to frame
         frame.add(tableScrollPane, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.SOUTH);
         frame.setLocationRelativeTo(null);
@@ -69,7 +72,7 @@ public class MainApp
     // Used to update the contact list with existing contacts
     private void updateTableData() 
     {
-        tableModel.setRowCount(0); // Clears the table
+        tableModel.setRowCount(0);
         for (contact c : cm.getContacts()) 
         {
             String type = c instanceof personalContact ? "Personal" : "Business";
@@ -81,7 +84,8 @@ public class MainApp
     }
 
     // Used to make the dialog box for adding contact
-    private void showAddContactDialog(JFrame parent) {
+    private void showAddContactDialog(JFrame parent) 
+    {
         JDialog dialog = new JDialog(parent, "Add Contact", true);
         dialog.setLayout(new GridLayout(7, 2, 10, 10));
         dialog.setSize(300, 300);
@@ -109,15 +113,21 @@ public class MainApp
             String email = emailField.getText().trim();
             String f1 = field1.getText().trim();
             String f2 = field2.getText().trim();
-            if (!name.isEmpty() && !phone.isEmpty() && !email.isEmpty()) {
-                if (typeCombo.getSelectedItem().equals("Personal")) {
+            if (!name.isEmpty() && !phone.isEmpty() && !email.isEmpty())
+            {
+                if (typeCombo.getSelectedItem().equals("Personal")) 
+                {
                     cm.addContact(new personalContact(name, phone, email, f1, f2));
-                } else {
+                }
+                else 
+                {
                     cm.addContact(new businessContact(name, phone, email, f1, f2));
                 }
                 updateTableData();
                 dialog.dispose();
-            } else {
+            }
+            else
+            {
                 JOptionPane.showMessageDialog(dialog, "Name, Phone, and Email are required!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -141,7 +151,8 @@ public class MainApp
     }
 
     // Used to make the dialog box for deleting a contact
-    private void showDeleteContactDialog(JFrame parent) {
+    private void showDeleteContactDialog(JFrame parent)
+    {
         JDialog dialog = new JDialog(parent, "Delete Contact", true);
         dialog.setLayout(new GridLayout(3, 2, 10, 10));
         dialog.setSize(200, 150);
@@ -151,11 +162,14 @@ public class MainApp
         JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
             String name = nameField.getText().trim();
-            if (!name.isEmpty()) {
+            if (!name.isEmpty()) 
+            {
                 cm.removeContact(name);
                 updateTableData();
                 dialog.dispose();
-            } else {
+            }
+            else
+            {
                 JOptionPane.showMessageDialog(dialog, "Name is required!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -169,7 +183,8 @@ public class MainApp
     }
     
     // Used to make the dialog box to edit the contacts
-    private void showEditContactDialog(JFrame parent) {
+    private void showEditContactDialog(JFrame parent)
+    {
         JDialog dialog = new JDialog(parent, "Edit Contact", true);
         dialog.setLayout(new GridLayout(9, 2, 10, 10));
         dialog.setSize(300, 340);
@@ -194,23 +209,29 @@ public class MainApp
 
         loadButton.addActionListener(e -> {
             String name = nameField.getText().trim();
-            if (name.isEmpty()) {
+            if (name.isEmpty()) 
+            {
                 JOptionPane.showMessageDialog(dialog, "Please enter a contact name!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             boolean found = false;
-            for (contact c : cm.getContacts()) {
-                if (c.getName().equals(name)) { // Case-sensitive
+            for (contact c : cm.getContacts()) 
+            {
+                if (c.getName().equals(name)) 
+                { 
                     newNameField.setText(c.getName());
                     phoneField.setText(c.getPhoneNum());
                     emailField.setText(c.getEmail());
-                    if (c instanceof personalContact) {
+                    if (c instanceof personalContact) 
+                    {
                         typeCombo.setSelectedItem("Personal");
                         field1Label.setText("Birthday:");
                         field2Label.setText("Relationship:");
                         field1.setText(((personalContact) c).getBday());
                         field2.setText(((personalContact) c).getRelation());
-                    } else {
+                    } 
+                    else
+                    {
                         typeCombo.setSelectedItem("Business");
                         field1Label.setText("Company:");
                         field2Label.setText("Job Title:");
@@ -221,7 +242,8 @@ public class MainApp
                     break;
                 }
             }
-            if (!found) {
+            if (!found) 
+            {
                 JOptionPane.showMessageDialog(dialog, "Contact not found! Name is case-sensitive.", "Error", JOptionPane.ERROR_MESSAGE);
                 newNameField.setText("");
                 phoneField.setText("");
@@ -239,19 +261,26 @@ public class MainApp
             String email = emailField.getText().trim();
             String f1 = field1.getText().trim();
             String f2 = field2.getText().trim();
-            if (!oldName.isEmpty() && !newName.isEmpty() && !phone.isEmpty() && !email.isEmpty()) {
+            
+            if (!oldName.isEmpty() && !newName.isEmpty() && !phone.isEmpty() && !email.isEmpty()) 
+            {
                 boolean exists = cm.getContacts().stream().anyMatch(c -> c.getName().equals(oldName));
-                if (exists) {
+                if (exists) 
+                {
                     contact updatedContact = typeCombo.getSelectedItem().equals("Personal") ?
                             new personalContact(newName, phone, email, f1, f2) :
                             new businessContact(newName, phone, email, f1, f2);
                     cm.updateContact(oldName, updatedContact);
                     updateTableData();
                     dialog.dispose();
-                } else {
+                } 
+                else 
+                {
                     JOptionPane.showMessageDialog(dialog, "Contact not found! Name is case-sensitive.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
+            } 
+            else 
+            {
                 JOptionPane.showMessageDialog(dialog, "All fields (except optional ones) are required!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -278,8 +307,55 @@ public class MainApp
         dialog.setVisible(true);
     }
     
+    // Used to make the search function dialog box
+    private void showSearchContactDialog(JFrame parent) 
+    {
+        JDialog dialog = new JDialog(parent, "Search Contact", true);
+        dialog.setLayout(new GridLayout(3, 2, 10, 10));
+        dialog.setSize(200, 150);
+        dialog.setLocationRelativeTo(parent);
+
+        JTextField nameField = new JTextField(20);
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(e -> {
+            String name = nameField.getText().trim();
+            if (!name.isEmpty())
+            {
+                for (contact c : cm.getContacts()) 
+                {
+                    if (c.getName().equals(name))
+                    {
+                        String details = c instanceof personalContact ?
+                                "Type: Personal\nName: " + c.getName() + "\nPhone: " + c.getPhoneNum() +
+                                "\nEmail: " + c.getEmail() + "\nBirthday: " + ((personalContact) c).getBday() +
+                                "\nRelationship: " + ((personalContact) c).getRelation() :
+                                "Type: Business\nName: " + c.getName() + "\nPhone: " + c.getPhoneNum() +
+                                "\nEmail: " + c.getEmail() + "\nCompany: " + ((businessContact) c).getCompany() +
+                                "\nJob Title: " + ((businessContact) c).getJobTitle();
+                        JOptionPane.showMessageDialog(dialog, details, "Contact Details", JOptionPane.INFORMATION_MESSAGE);
+                        dialog.dispose();
+                        return;
+                    }
+                }
+                JOptionPane.showMessageDialog(dialog, "Contact not found! Name is case-sensitive.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(dialog, "Name is required!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        dialog.add(new JLabel("Contact Name:"));
+        dialog.add(nameField);
+        dialog.add(new JLabel(""));
+        dialog.add(searchButton);
+
+        dialog.setVisible(true);
+    }
+    
     //main 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SwingUtilities.invokeLater(() -> new MainApp());
     }
 }

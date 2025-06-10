@@ -6,6 +6,7 @@ public class contact
 	private String phoneNum;
 	private String email;
 	
+	// Constructor
 	public contact(String name, String phoneNum,String email)
 	{
 		this.name=name;
@@ -13,6 +14,7 @@ public class contact
 		this.email=email;
 	}
 	
+	// Getter functions
 	public String getName()
 	{
 		return name;

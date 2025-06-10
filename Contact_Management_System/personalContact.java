@@ -5,6 +5,7 @@ public class personalContact extends contact
 	private String bday;
 	private String relation;
 	
+	//Constructor
 	public personalContact(String name,String phoneNum,String email,String bday,String relation)
 	{
 		super(name,phoneNum,email);
@@ -12,6 +13,7 @@ public class personalContact extends contact
 		this.relation=relation;
 	}
 	
+	// Getter functions
 	public String getBday()
 	{
         return bday;

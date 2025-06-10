@@ -13,6 +13,7 @@ public class businessContact extends contact
 		this.jobTitle=jobTitle;
 	}
 	
+	// Getter functions
 	public String getCompany()
 	{
         return company;
